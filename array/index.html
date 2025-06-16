@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - IW2A</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        label {
+            font-size: 14px;
+            color: #555;
+            text-align: left;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus, input[type="email"]:focus {
+            border-color: #2575fc;
+            outline: none;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #2575fc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #6a11cb;
+        }
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-top: -15px;
+            margin-bottom: 10px;
+        }
+        .user-list {
+            margin-top: 20px;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: scroll;
+            padding-right: 10px;
+            border-top: 1px solid #ddd;
+        }
+        .user-list p {
+            padding: 8px;
+            background-color: #f0f8ff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Cadastro</h2>
+    <form id="form">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Digite seu email" required>
+        
+        <input type="submit" id="bt" value="Cadastrar">
+    </form>
+
+    <div class="user-list" id="userList">
+    </div>
+</div>
+
+<script>
+    let rafh = [];
+    let form = document.getElementById('form');
+    let nome = document.getElementById('nome');
+    let email = document.getElementById('email');
+    let userList = document.getElementById('userList');
+
+    form.onsubmit = function(e) {
+        e.preventDefault();
+
+        if (rafh.some(user => user.email === email.value)) {
+            alert("Este email já foi cadastrado.");
+            return;
+        }
+
+        rafh.push({
+            nome: nome.value,
+            email: email.value
+        });
+
+        updateUserList();
+        
+        nome.value = '';
+        email.value = '';
+    };
+
+    function updateUserList() {
+        userList.innerHTML = '';
+
+        rafh.forEach(user => {
+            let userElement = document.createElement("p");
+            userElement.textContent = `Nome: ${user.nome}, Email: ${user.email}`;
+            userList.appendChild(userElement);
+        });
+    }
+</script>
+
+</body>
+</html>
